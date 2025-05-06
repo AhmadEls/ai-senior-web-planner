@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -180,3 +181,81 @@ button:focus-visible {
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+/* --- Trip Progress Special Buttons --- */
+.trip-progress-btn {
+  @apply px-5 py-2 text-sm rounded-full font-semibold shadow transition-all duration-300 ease-in-out transform hover:scale-105;
+}
+
+.trip-progress-btn.not-visited {
+  @apply bg-white hover:bg-gray-200 text-gray-700 border border-gray-300;
+}
+
+.trip-progress-btn.visited {
+  @apply bg-green-500 hover:bg-green-600 text-white;
+}
+
+/* --- Header Buttons Special Styles --- */
+.header-signin-btn {
+  @apply px-5 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm transition-all duration-300 ease-in-out;
+}
+
+.header-google-btn {
+  @apply w-full flex gap-3 items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-gray-700 bg-white hover:bg-gray-100 border border-gray-300 transition-all duration-300 ease-in-out;
+}
+
+/* --- Back to Home Buttons --- */
+.back-to-home-btn {
+  @apply inline-block px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-medium shadow transition-all duration-300;
+}
+/* --- User Trip Card Buttons --- */
+.usertrip-viewdetails-btn {
+  @apply bg-transparent text-blue-600 hover:text-blue-800 text-sm font-semibold transition-all duration-300;
+}
+
+/* --- Profile Menu Buttons --- */
+.header-profile-btn {
+  @apply w-full px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-center transition-all duration-300;
+}
+/* Buttons for Highlights Page */
+.button-primary {
+  @apply px-6 py-2 rounded-lg font-semibold transition-all duration-300;
+  background: linear-gradient(to right, #2563eb, #3b82f6); /* blue-600 to blue-500 */
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button-primary:hover {
+  background: linear-gradient(to right, #1e40af, #2563eb); /* darker blue on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.button-outline {
+  @apply px-6 py-2 rounded-lg font-semibold transition-all duration-300;
+  background: white;
+  color: #2563eb; /* blue-600 */
+  border: 2px solid #2563eb;
+}
+
+.button-outline:hover {
+  background: #eff6ff; /* light blue background on hover */
+  color: #1d4ed8; /* darker blue text */
+  transform: translateY(-1px);
+}
+
