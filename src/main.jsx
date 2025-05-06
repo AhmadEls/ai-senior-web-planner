@@ -22,7 +22,7 @@ import HighlightDetail from './pages/HighlightDetail';
 import AdminDashboard from './components/AdminDashboard';
 import AdminRoute from './components/AdminRoute';
 
-import Layout from './components/Layout';
+import Layout from './components/layout';
 
 const router = createBrowserRouter([
   {
