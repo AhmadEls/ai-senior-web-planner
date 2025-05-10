@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { db } from '../firebaseConfig';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db, auth } from '../firebaseConfig'; // Make sure auth is exported in your firebaseConfig
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  // eslint-disable-next-line no-unused-vars
+  deleteDoc,
+  // eslint-disable-next-line no-unused-vars
+  doc,
+  writeBatch
+} from 'firebase/firestore';
+
 import { useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import {
@@ -11,6 +22,7 @@ import {
   TwitterIcon,
   LinkedinIcon,
 } from 'react-share';
+import { signOut, deleteUser } from 'firebase/auth';
 
 function Profile() {
   const [myTrips, setMyTrips] = useState([]);
@@ -103,6 +115,47 @@ function Profile() {
     doc.save(`${destination.replaceAll(' ', '_')}_certificate.pdf`);
   };
 
+  const deleteAccount = async () => {
+    if (!user || !window.confirm('Are you sure you want to permanently delete your account and all data? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      // Delete all user trips
+      const tripsRef = collection(db, 'AITrips');
+      const q = query(tripsRef, where('userEmail', '==', user.email));
+      const querySnapshot = await getDocs(q);
+      
+      const batch = writeBatch(db);
+      querySnapshot.forEach((document) => {
+        batch.delete(document.ref);
+      });
+      await batch.commit();
+
+      // Delete user authentication
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        await deleteUser(currentUser);
+      }
+
+      // Clean up and redirect
+      localStorage.removeItem('user');
+      navigate('/');
+      alert('Your account and all data have been permanently deleted.');
+    } catch (error) {
+      console.error('Error deleting account:', error);
+      
+      if (error.code === 'auth/requires-recent-login') {
+        alert('For security, please sign in again to confirm account deletion.');
+        await signOut(auth);
+        localStorage.removeItem('user');
+        navigate('/login');
+      } else {
+        alert(`Error deleting account: ${error.message}`);
+      }
+    }
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-12">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
@@ -123,6 +176,24 @@ function Profile() {
               <p className="text-sm text-gray-600 leading-relaxed">
                 Passionate traveler and adventure seeker! I love discovering hidden gems and sharing my experiences.
               </p>
+            </div>
+            <div className="mt-6 space-y-3">
+              <button
+                onClick={() => {
+                  signOut(auth);
+                  localStorage.removeItem('user');
+                  navigate('/');
+                }}
+                className="w-full px-4 py-2 text-sm bg-gray-600 text-white rounded-md hover:bg-gray-700 transition"
+              >
+                Sign Out
+              </button>
+              <button
+                onClick={deleteAccount}
+                className="w-full px-4 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition"
+              >
+                Delete Account Permanently
+              </button>
             </div>
           </div>
         </div>
@@ -205,7 +276,7 @@ function Profile() {
                           onClick={() => generateCertificate(trip)}
                           className="px-4 py-2 text-sm bg-green-600 text-white rounded-md hover:bg-green-700 transition"
                         >
-                          🎓 Download Certificate
+                          � Download Certificate
                         </button>
                         <div className="flex items-center gap-2 pt-2">
                           <WhatsappShareButton
