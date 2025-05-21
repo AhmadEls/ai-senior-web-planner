@@ -9,31 +9,48 @@ function Contact() {
       initial={{ opacity: 0 }} 
       animate={{ opacity: 1 }} 
       transition={{ duration: 0.6 }}
-      className="max-w-3xl mx-auto px-6 py-16 text-gray-800"
+      className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-purple-100 via-white to-blue-100 p-6"
     >
-      <h1 className="text-4xl font-bold mb-6 text-center text-gray-900">Contact Us</h1>
-      <p className="text-lg text-gray-600 mb-8 text-center">
-        We'd love to hear from you! Whether you have questions, feedback, or suggestions, feel free to reach out.
-      </p>
+      <div className="bg-white shadow-xl rounded-xl max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 overflow-hidden">
+        
+        {/* Left Panel - Contact Info */}
+        <div className="bg-gradient-to-br from-purple-500 to-pink-400 text-white p-10 space-y-6 flex flex-col justify-center">
+          <div>
+            <h2 className="text-3xl font-bold mb-2">Let us get in touch</h2>
+            <p className="text-sm">Feel free to reach us via email or social links below.</p>
+          </div>
+          <div>
+            <p className="text-white font-semibold">📍 Address</p>
+            <p className="text-sm">Beirut, Lebanon</p>
+          </div>
+          <div>
+            <p className="text-white font-semibold">📧 Email</p>
+            <p className="text-sm">info@ziyarah.app</p>
+          </div>
+          <div className="flex gap-4 text-white text-lg mt-4">
+            <i className="fab fa-facebook-f"></i>
+            <i className="fab fa-twitter"></i>
+            <i className="fab fa-instagram"></i>
+            <i className="fab fa-linkedin-in"></i>
+          </div>
+        </div>
 
-      <div className="bg-white rounded-xl shadow p-6 space-y-4">
-        <p className="text-gray-600">
-          📧 Email us directly at: 
-          <a href="mailto:info@ziyarah.app" className="text-blue-600 hover:underline ml-2">
-            info@ziyarah.app
-          </a>
-        </p>
-        <p className="text-gray-600">📍 Based in: Beirut, Lebanon</p>
-        <p className="text-gray-600">💬 You can also reach out through our social channels coming soon!</p>
-      </div>
+        {/* Right Panel - Contact Form */}
+        <div className="p-10 flex flex-col justify-center bg-white">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6">Contact Us</h2>
+          <form className="space-y-4">
+            <input type="text" placeholder="Your Name" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-purple-300" />
+            <input type="email" placeholder="Your Email" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-purple-300" />
+            <input type="text" placeholder="Subject" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-purple-300" />
+            <textarea placeholder="Your Message..." rows="4" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-purple-300"></textarea>
+            <button type="submit" className="w-full bg-purple-500 text-white py-2 rounded-md hover:bg-purple-600 transition duration-300">Send Message</button>
+          </form>
 
-      <div className="text-center mt-8">
-          <Link
-                to="/"
-                className="back-to-home-btn"
-              >
-          ← Back to Home
-        </Link>
+          <div className="text-center mt-6">
+            <Link to="/" className="text-sm text-purple-600 hover:underline">← Back to Home</Link>
+          </div>
+        </div>
+
       </div>
     </motion.div>
   );
